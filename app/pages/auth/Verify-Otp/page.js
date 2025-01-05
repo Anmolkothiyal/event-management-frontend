@@ -13,7 +13,7 @@ const VerifyOTP = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/20">
       <div className="w-full max-w-md transform transition-all">
-        <div className="relative bg-background/80 backdrop-blur-sm rounded-2xl shadow-xl border border-border/50 p-8">
+        <div className="relative bg-background/80 backdrop-blur-sm rounded-2xl p-8">
         <div className="absolute -top-12 left-1/2 -translate-x-1/2">
             <div className="rounded-full bg-primary p-3 shadow-lg">
               <Verified className="w-8 h-8 text-primary-foreground" />

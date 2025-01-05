@@ -6,23 +6,23 @@ import { ArrowRight, Calendar, Users, Zap } from 'lucide-react'
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-purple-700 text-white">
-      <header className="p-6 flex justify-between items-center bg-black/10 backdrop-blur-sm fixed w-full z-50">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-          EventManager
-        </h1>
-        <nav className="space-x-4">
-          <Link href={PageRoutes.LOGIN()}>
-            <button className="bg-white/90 text-blue-600 px-6 py-2.5 rounded-full font-semibold transition-all hover:bg-white hover:shadow-lg hover:shadow-white/20 active:scale-95">
-              Login
-            </button>
-          </Link>
-          <Link href={PageRoutes.SIGNUP()}>
-            <button className="bg-purple-600 px-6 py-2.5 rounded-full font-semibold transition-all hover:bg-purple-700 hover:shadow-lg hover:shadow-purple-500/30 active:scale-95">
-              Register
-            </button>
-          </Link>
-        </nav>
-      </header>
+       <header className="p-4 sm:p-6 flex flex-wrap justify-between items-center bg-black/10 backdrop-blur-sm fixed w-full z-50">
+      <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+        EventManager
+      </h1>
+      <nav className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 mt-2 sm:mt-0">
+        <Link href={PageRoutes.LOGIN()}>
+          <button className="w-full sm:w-auto bg-white/90 text-blue-600 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all hover:bg-white hover:shadow-lg hover:shadow-white/20 active:scale-95">
+            Login
+          </button>
+        </Link>
+        <Link href={PageRoutes.SIGNUP()}>
+          <button className="w-full sm:w-auto bg-purple-600 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all hover:bg-purple-700 hover:shadow-lg hover:shadow-purple-500/30 active:scale-95">
+            Register
+          </button>
+        </Link>
+      </nav>
+    </header>
 
       <main className="flex flex-col items-center justify-center text-center py-32 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-purple-700/20 backdrop-blur-[2px]"></div>
