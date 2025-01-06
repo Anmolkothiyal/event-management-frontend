@@ -4,7 +4,7 @@ import { useState } from "react"
 import changeHandlerHelper from "./helper/changeHandler"
 import PageRoutes from "@/utilis/PageRoute"
 import Api from "@/services/EndPoint"
-import axios from "axios"
+import axios from "@/services/axios"
 
 
 const initialSignUpBody = {

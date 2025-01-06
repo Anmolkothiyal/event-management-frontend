@@ -19,7 +19,7 @@ const Login = () => {
       <div className="w-full max-w-md transform transition-all">
         <div className="relative bg-background/80 backdrop-blur-sm rounded-2xl p-8">
           <div className="absolute -top-12 left-1/2 -translate-x-1/2">
-            <div className="rounded-full bg-primary p-3 shadow-lg">
+            <div className="rounded-full b-color p-3 shadow-lg">
               <LockKeyhole className="w-8 h-8 text-primary-foreground" />
             </div>
           </div>
@@ -74,7 +74,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-primary text-primary-foreground py-3 px-4 rounded-lg hover:bg-primary/90 focus:outline-none  transition-colors font-medium"
+              className="w-full b-color text-primary-foreground py-3 px-4 rounded-lg hover:bg-primary/90 focus:outline-none  transition-colors font-medium"
             >
               Sign in
             </button>

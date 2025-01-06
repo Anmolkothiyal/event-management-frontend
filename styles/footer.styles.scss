@@ -1,0 +1,25 @@
+.footer-span {
+    height: 3rem;
+    width: 100%;
+    display: block;
+  }
+  
+  footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary;
+  }
+  
+  footer p {
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
