@@ -35,11 +35,11 @@ export default function Home() {
             From intimate gatherings to large-scale conferences, EventManager empowers you to create 
             unforgettable experiences with ease and precision.
           </p>
-          <div className="flex justify-center space-x-6">
+          {/* <div className="flex justify-center space-x-6">
             <button className="bg-white/95 text-blue-600 px-8 py-4 rounded-full font-bold transition-all hover:bg-white hover:shadow-xl hover:shadow-white/20 hover:transform hover:-translate-y-1 active:translate-y-0 flex items-center">
               Get Started <ArrowRight className="ml-2 h-5 w-5" />
             </button>
-          </div>
+          </div> */}
         </div>
       </main>
 
@@ -93,7 +93,13 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      <Footer/>
+      {/* <footer className="bg-gray-500 text-white py-5 px-4">
+      <div className="max-w-5xl mx-auto text-center text-sm sm:text-base">
+        <p className="font-medium tracking-wide">
+          &copy; {new Date().getFullYear()} EventManager. All rights reserved.
+        </p>
+      </div>
+     </footer> */}
       </div>
   );
 }
