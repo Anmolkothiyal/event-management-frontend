@@ -10,7 +10,9 @@ DASHBOARD:()=>`/pages/dashboard`,
 
 
 //admin
-ADMINDASBOARD:()=>`/pages/admin/dashboard`
+ADMINDASBOARD:()=>`/pages/admin/dashboard`,
+USER:()=>`/pages/admin/dashboard/user`
+ 
 
 }
 export default PageRoutes

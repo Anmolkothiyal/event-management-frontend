@@ -253,7 +253,6 @@ hr {
   }
 }
 aside {
-  border-right: 2px solid #dddddd;
   opacity: 5;
 }
 .page-heading-container {
@@ -488,9 +487,11 @@ background: none
 .pagination button:hover{
   background: none
 }
+
 @import "./header.styles.scss";
 @import "./footer.styles.scss";
-@import "./sidebar.styles.scss"
+@import "./sidebar.styles.scss";
+@import "./table.styles.scss"
 
 
 

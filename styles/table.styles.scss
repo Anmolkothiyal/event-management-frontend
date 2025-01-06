@@ -1,0 +1,54 @@
+.user-container {
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.responsive-table thead {
+    background-color: #f4f4f4;
+}
+
+.responsive-table th,
+.responsive-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.responsive-table th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.responsive-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.responsive-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+    .responsive-table th,
+    .responsive-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
