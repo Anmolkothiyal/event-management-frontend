@@ -2,10 +2,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import useUserHooks from "@/hooks/useUserHooks";
-import { MoreHorizontal, Eye, Edit } from "lucide-react";
+import { MoreHorizontal, Trash, Edit } from "lucide-react";
+import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 
 const User = () => {
-  const { fetchUsers } = useUserHooks();
+  const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible } = useUserHooks();
   const { user } = useSelector((state) => state.authSlice);
   const [openMenuId, setOpenMenuId] = useState(null);
   const dropdownRef = useRef(null);
@@ -13,6 +14,7 @@ const User = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -25,11 +27,6 @@ const User = () => {
 
   const handleMenuClick = (userId) => {
     setOpenMenuId(openMenuId === userId ? null : userId);
-  };
-
-  const handleView = (userId) => {
-    console.log("Viewing user:", userId);
-    setOpenMenuId(null);
   };
 
   const handleEdit = (userId) => {
@@ -62,31 +59,23 @@ const User = () => {
                   <td>{userData.role}</td>
                   <td>{userData.isVerified ? "Yes" : "No"}</td>
                   <td className="relative">
-                    <button
-                      onClick={() => handleMenuClick(userData.id)}
-                      className="p-1 hover:bg-gray-100 rounded-full"
-                    >
+                    <button onClick={() => handleMenuClick(userData.id)} className="p-1 hover:bg-gray-100 rounded-full">
                       <MoreHorizontal className="h-5 w-5" />
                     </button>
                     {openMenuId === userData.id && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
-                      >
+                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                         <div className="py-1">
                           <button
-                            onClick={() => handleView(userData.id)}
+                            onClick={() => showDeleteModal(userData.id)}
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
                           >
-                            <Eye className="h-4 w-4 mr-2" />
-                            View User
+                            <Trash className="h-4 w-4 mr-2" /> Delete User
                           </button>
                           <button
                             onClick={() => handleEdit(userData.id)}
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
                           >
-                            <Edit className="h-4 w-4 mr-2" />
-                            Edit User
+                            <Edit className="h-4 w-4 mr-2" /> Edit User
                           </button>
                         </div>
                       </div>
@@ -96,14 +85,13 @@ const User = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="no-data">
-                  User not found
-                </td>
+                <td colSpan="6" className="no-data">User not found</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+      <DeleteConfirmationModal open={isModalVisible} onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} />
     </div>
   );
 };
