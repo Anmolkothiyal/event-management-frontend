@@ -36,9 +36,10 @@ const UseAuthHook = () => {
         setShowPassword(!showPassword)
     }
     const {logout}= useActionDispatch()
+
     const fetchUserByEmail = async (email) => {
         try {
-            const response = await axios.get(`https://event-mangement-backend-sj7x.onrender.com/api/user?email=${email}`)
+            const response = await axios.get(`${Api.USER()}?email=${email}`)
             return response.data.users.find(user => user.email === email)
         } catch (error) {
             toast.error("Failed to fetch user")

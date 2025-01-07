@@ -2,13 +2,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import useUserHooks from "@/hooks/useUserHooks";
-import { MoreHorizontal, Trash, Edit } from "lucide-react";
+import { MoreHorizontal, Trash, Edit, Save } from "lucide-react";
 import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 
 const User = () => {
-  const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible } = useUserHooks();
+  const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible,editingUserId,editableData, handleEdit,handleInputChange,handleSave } = useUserHooks();
   const { user } = useSelector((state) => state.authSlice);
   const [openMenuId, setOpenMenuId] = useState(null);
+
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -29,15 +30,11 @@ const User = () => {
     setOpenMenuId(openMenuId === userId ? null : userId);
   };
 
-  const handleEdit = (userId) => {
-    console.log("Editing user:", userId);
-    setOpenMenuId(null);
-  };
 
   return (
     <div className="user-container relative overflow-visible z-50">
-      <h1>User List :-</h1>
-      <div className="table-responsive table-container mt-4">
+      <h1>Users Details :-</h1>
+      <div className="table-responsive table-container mt-2">
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -54,22 +51,80 @@ const User = () => {
               user.map((userData) => (
                 <tr key={userData.id}>
                   <td>{userData.id}</td>
-                  <td>{userData.name}</td>
-                  <td>{userData.email}</td>
-                  <td>{userData.role}</td>
-                  <td>{userData.isVerified ? "Yes" : "No"}</td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <input
+                        type="text"
+                        value={editableData.name || ""}
+                        onChange={(e) => handleInputChange(e, "name")}
+                        className="border p-1"
+                      />
+                    ) : (
+                      userData.name
+                    )}
+                  </td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <input
+                        type="email"
+                        value={editableData.email || ""}
+                        onChange={(e) => handleInputChange(e, "email")}
+                        className="border p-1"
+                      />
+                    ) : (
+                      userData.email
+                    )}
+                  </td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <input
+                        type="text"
+                        value={editableData.role || ""}
+                        onChange={(e) => handleInputChange(e, "role")}
+                        className="border p-1"
+                      />
+                    ) : (
+                      userData.role
+                    )}
+                  </td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <select
+                        value={editableData.isVerified || false}
+                        onChange={(e) => handleInputChange(e, "isVerified")}
+                        className="border p-1"
+                      >
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                      </select>
+                    ) : (
+                      userData.isVerified ? "Yes" : "No"
+                    )}
+                  </td>
                   <td className="relative">
-                    <button onClick={() => handleMenuClick(userData.id)} className="p-1 hover:bg-gray-100 rounded-full">
-                      <MoreHorizontal className="h-5 w-5" />
-                    </button>
-                    {openMenuId === userData.id && (
-                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
-                      style={{
-                        position: "absolute",
-                        transform: "translateY(-100%)",
-                        right: 0,
-                        zIndex: 1050,
-                      }}>
+                    {editingUserId === userData.id ? (
+                      <button
+                        onClick={handleSave}
+                        className="flex items-center px-2 py-1 text-sm text-green-600 hover:bg-gray-100"
+                      >
+                        <Save className="h-4 w-4 mr-1" /> Save
+                      </button>
+                    ) : (
+                      <button onClick={() => handleMenuClick(userData.id)} className="p-1 hover:bg-gray-100 rounded-full">
+                        <MoreHorizontal className="h-5 w-5" />
+                      </button>
+                    )}
+                    {openMenuId === userData.id && !editingUserId && (
+                      <div
+                        ref={dropdownRef}
+                        className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                        style={{
+                          position: "absolute",
+                          transform: "translateY(-100%)",
+                          right: 0,
+                          zIndex: 1050,
+                        }}
+                      >
                         <div className="py-1">
                           <button
                             onClick={() => showDeleteModal(userData.id)}
@@ -78,7 +133,7 @@ const User = () => {
                             <Trash className="h-4 w-4 mr-2" /> Delete User
                           </button>
                           <button
-                            onClick={() => handleEdit(userData.id)}
+                            onClick={() => handleEdit(userData)}
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
                           >
                             <Edit className="h-4 w-4 mr-2" /> Edit User
@@ -91,7 +146,9 @@ const User = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="no-data">User not found</td>
+                <td colSpan="6" className="no-data">
+                  User not found
+                </td>
               </tr>
             )}
           </tbody>
