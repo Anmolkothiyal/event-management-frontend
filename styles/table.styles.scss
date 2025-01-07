@@ -8,9 +8,9 @@ h1 {
     margin-bottom: 20px;
 }
 
-.table-container {
-    overflow-x: auto;
-}
+// .table-container {
+//     overflow-x: clip;
+// }
 
 .responsive-table {
     width: 100%;
@@ -50,5 +50,7 @@ h1 {
         font-size: 12px;
         padding: 8px;
     }
+    // .table-container{
+    //     overflow-x: auto;
+    // }
 }
-

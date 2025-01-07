@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
         <section
           className={`col-lg-${isCollapsed ? "11" : "10"} col-md-${
             isCollapsed ? "11" : "10"
-          } col-12 p-2 mt-4`}
+          } col-12 p-2 mt-1`}
         >
           {children}
         </section>
