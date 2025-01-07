@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { setUser } from "@/redux/slice/auth.slice"
+import { logout, setUser } from "@/redux/slice/auth.slice"
 
 
 const useActionDispatch = ()=>{
@@ -7,8 +7,8 @@ const useActionDispatch = ()=>{
 
 
     return({
-        setUser:(e) => dispatch(setUser(e))
-        
+        setUser:(e) => dispatch(setUser(e)),
+        logout:(e) => dispatch(logout(e))
         
     })
 

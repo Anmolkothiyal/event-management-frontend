@@ -1,8 +1,12 @@
+"use client";
+import UseAuthHook from "@/hooks/useAuthHook";
 import PageRoutes from "@/utilis/PageRoute";
 import Link from "next/link";
 import { FaUsers, FaCalendar, FaTicketAlt, FaComment, FaChartBar, FaCog, FaMoon } from "react-icons/fa";
 
+
 const AdminSidebar = () => {
+const {handleLogout}=UseAuthHook()
   return (
     <>
       <div className="admin-sidebar desktop-only">
@@ -18,15 +22,15 @@ const AdminSidebar = () => {
               <FaUsers className="nav-icon" />
               <span>Users</span>
             </Link>
-            <Link href="/events" className="nav-link">
+            <Link href={PageRoutes.EVENT()} className="nav-link">
               <FaCalendar className="nav-icon" />
               <span>Events</span>
             </Link>
-            <Link href="/tickets" className="nav-link">
+            <Link href={PageRoutes.TICKET()} className="nav-link">
               <FaTicketAlt className="nav-icon" />
               <span>Tickets</span>
             </Link>
-            <Link href="/feedback" className="nav-link">
+            <Link href={PageRoutes.FEEDBACK()} className="nav-link">
               <FaComment className="nav-icon" />
               <span>Feedback</span>
             </Link>
@@ -34,13 +38,13 @@ const AdminSidebar = () => {
         </div>
 
         <div className="sidebar-footer">
-          <Link href="/settings" className="nav-link">
+          <button onClick={handleLogout} className="nav-link">
             <FaCog className="nav-icon" />
-            <span>Settings</span>
-          </Link>
-          <button className="theme-toggle">
-            <FaMoon className="nav-icon" />
+            <span>Logout</span>
           </button>
+          {/* <button className="theme-toggle">
+            <FaMoon className="nav-icon" />
+          </button> */}
         </div>
       </div>
 
@@ -54,15 +58,15 @@ const AdminSidebar = () => {
           <FaUsers className="nav-icon" />
           <span>Users</span>
         </Link>
-        <Link href="/events" className="nav-link">
+        <Link href={PageRoutes.EVENT()} className="nav-link">
           <FaCalendar className="nav-icon" />
           <span>Events</span>
         </Link>
-        <Link href="/tickets" className="nav-link">
+        <Link href={PageRoutes.TICKET()} className="nav-link">
           <FaTicketAlt className="nav-icon" />
           <span>Tickets</span>
         </Link>
-        <Link href="/feedback" className="nav-link">
+        <Link href={PageRoutes.FEEDBACK()} className="nav-link">
           <FaComment className="nav-icon" />
           <span>Feedback</span>
         </Link>

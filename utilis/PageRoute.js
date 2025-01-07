@@ -1,3 +1,6 @@
+import { Ticket } from "lucide-react"
+import Feedback from "react-bootstrap/esm/Feedback"
+
 const PageRoutes={
 SIGNUP:()=>`/pages/auth/Signup`,
 LOGIN:()=>`/pages/auth/login`,
@@ -11,7 +14,12 @@ DASHBOARD:()=>`/pages/dashboard`,
 
 //admin
 ADMINDASBOARD:()=>`/pages/admin/dashboard`,
-USER:()=>`/pages/admin/dashboard/user`
+USER:()=>`/pages/admin/dashboard/user`,
+EVENT:()=>`/pages/admin/dashboard/event`,
+TICKET:()=>`/pages/admin/dashboard/ticket`,
+FEEDBACK:()=>`/pages/admin/dashboard/feedback`,
+
+
  
 
 }
