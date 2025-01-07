@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import useUserHooks from "@/hooks/useUserHooks";
 import { MoreHorizontal, Trash, Edit, Save } from "lucide-react";
 import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
+import PageHeading from "@/component/core/PageHeading";
 
 const User = () => {
   const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible,editingUserId,editableData, handleEdit,handleInputChange,handleSave } = useUserHooks();
   const { user } = useSelector((state) => state.authSlice);
   const [openMenuId, setOpenMenuId] = useState(null);
+
 
   const dropdownRef = useRef(null);
 
@@ -33,7 +35,18 @@ const User = () => {
 
   return (
     <div className="user-container relative overflow-visible z-50">
-      <h1>Users Details :-</h1>
+                  <PageHeading
+                heading="Users"
+                subHeading="Manage all users"
+                placeholder="Search by Organization Name"
+                btns={[
+                    {
+                        label: "Add User",
+                        className: "",
+                    },
+                ]}
+
+            />
       <div className="table-responsive table-container mt-2">
         <table className="table table-bordered">
           <thead>
