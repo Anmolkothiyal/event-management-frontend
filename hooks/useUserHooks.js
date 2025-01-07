@@ -8,6 +8,9 @@ const useUserHooks = () => {
   const { setUser } = useActionDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [editableData, setEditableData] = useState({});
+  
 
   const fetchUsers = async () => {
     try {
@@ -46,12 +49,49 @@ const useUserHooks = () => {
     setUserToDelete(null);
   };
 
+  const handleEdit = (userData) => {
+    setEditingUserId(userData.id);
+    setEditableData(userData); // Set the initial values for editing.
+  };
+
+  const handleInputChange = (e, field) => {
+    setEditableData({ ...editableData, [field]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`https://event-mangement-backend-sj7x.onrender.com/api/user/${editingUserId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editableData),
+      });
+
+      if (response.ok) {
+        alert("User updated successfully!");
+        fetchUsers(); // Refresh the user list.
+        setEditingUserId(null); // Exit editing mode.
+      } else {
+        alert("Failed to update user.");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("An error occurred while updating the user.");
+    }
+  };
+
   return {
     fetchUsers,
     isModalVisible,
+    editingUserId,
+    editableData,
     showDeleteModal,
     handleDeleteConfirm,
     handleDeleteCancel,
+
+    handleEdit,
+    handleInputChange,handleSave
   };
 };
 

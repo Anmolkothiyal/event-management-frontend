@@ -12,7 +12,7 @@ const {handleLogout}=UseAuthHook()
       <div className="admin-sidebar desktop-only">
         <div className="sidebar-content">
           <h1 className="sidebar-title">Admin Panel</h1>
-          <p className="menu-label">Menu</p>
+          {/* <p className="menu-label">Menu</p> */}
           <nav className="nav-menu">
             <Link href={PageRoutes.ADMINDASBOARD()} className="nav-link">
               <FaChartBar className="nav-icon" />
