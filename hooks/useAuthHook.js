@@ -35,7 +35,7 @@ const UseAuthHook = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword)
     }
-
+    const {logout}= useActionDispatch()
     const fetchUserByEmail = async (email) => {
         try {
             const response = await axios.get(`https://event-mangement-backend-sj7x.onrender.com/api/user?email=${email}`)
@@ -135,6 +135,11 @@ const UseAuthHook = () => {
             toast.error(err.response?.data?.message || "An error occurred. Please try again.")
         }
     };
+    const handleLogout = () => {
+      logout()
+      router.push(PageRoutes.LOGIN());
+    };
+  
 
     return {
         authState,
@@ -144,6 +149,7 @@ const UseAuthHook = () => {
         authResetPasswordState,
         showPassword,
         router,
+        handleLogout,
         SignUpSubmitHandler,
         LoginSubmitHandler,
         ForgotPasswordSubmitHandler,
