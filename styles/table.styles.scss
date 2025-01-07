@@ -1,56 +1,81 @@
 .user-container {
-    padding: 10px;
-    font-family: Arial, sans-serif;
-}
+    position: relative; 
+    overflow: visible; 
+    z-index: 1;
+  
+    h1 {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+  }
+  
+  .table-container {
+    position: relative;
+  
+    table {
+      thead {
+        tr {
+          th {
+            background-color: $primary !important;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+  
+            &:nth-of-type(1) {
+              border-top-left-radius: 0.5rem;
+              border-bottom-left-radius: 0.5rem;
+            }
+  
+            &:nth-last-of-type(1) {
+              border-top-right-radius: 0.5rem;
+              border-bottom-right-radius: 0.5rem;
+            }
+          }
+        }
+      }
+  
+      tbody {
+        td {
+          font-weight: 500;
+          font-size: 0.9rem;
+          color: $text-color;
+  
+          a {
+            font-size: 0.9rem !important;
+            font-weight: 600;
+            color: $text-color;
+  
+            &:hover {
+              color: royalblue;
+            }
+          }
+  
+          &.relative {
+            position: relative; 
+          }
+  
+          .dropdown-menu {
+            position: absolute;
+            top: auto; 
+            bottom: auto; 
+            transform: translateY(-150%); 
+            right: 0; 
+            z-index: 1050; 
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            border-radius: 0.375rem;
+            min-width: 8rem;
+          }
+        }
+      }
+    }
+  }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-// .table-container {
-//     overflow-x: clip;
-// }
-
-.responsive-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-.responsive-table thead {
-    background-color: #f4f4f4;
-}
-
-.responsive-table th,
-.responsive-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-.responsive-table th {
-    background-color: #007bff;
-    color: white;
-    text-transform: uppercase;
-    font-size: 14px;
-}
-
-.responsive-table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-.responsive-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     .responsive-table th,
     .responsive-table td {
         font-size: 12px;
         padding: 8px;
     }
-    // .table-container{
-    //     overflow-x: auto;
-    // }
 }

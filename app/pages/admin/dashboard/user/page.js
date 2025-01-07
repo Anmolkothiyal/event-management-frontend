@@ -36,9 +36,9 @@ const User = () => {
 
   return (
     <div className="user-container relative overflow-visible z-50">
-      <h1>User List</h1>
-      <div className="table-container">
-        <table className="responsive-table relative z-10">
+      <h1>User List :-</h1>
+      <div className="table-responsive table-container mt-4">
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th>ID</th>
@@ -63,7 +63,13 @@ const User = () => {
                       <MoreHorizontal className="h-5 w-5" />
                     </button>
                     {openMenuId === userData.id && (
-                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                      <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                      style={{
+                        position: "absolute",
+                        transform: "translateY(-100%)",
+                        right: 0,
+                        zIndex: 1050,
+                      }}>
                         <div className="py-1">
                           <button
                             onClick={() => showDeleteModal(userData.id)}
