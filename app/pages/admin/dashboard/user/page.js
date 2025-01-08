@@ -77,7 +77,7 @@ const User = () => {
           },
         ]}
       />
-      <div className="table-responsive table-container mt-2">
+       <div className="table-responsive table-container mt-2">
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -94,7 +94,8 @@ const User = () => {
               user.map((userData) => (
                 <tr key={userData.id}>
                   <td>{userData.id}</td>
-                  <td>{editingUserId === userData.id ? (
+                  <td>
+                    {editingUserId === userData.id ? (
                       <input
                         type="text"
                         value={editableData.name || ""}
@@ -105,12 +106,50 @@ const User = () => {
                       userData.name
                     )}
                   </td>
-                  <td>{userData.email}</td>
-                  <td>{userData.role}</td>
-                  <td>{userData.isVerified ? "Yes" : "No"}</td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <input
+                        type="email"
+                        value={editableData.email || ""}
+                        onChange={(e) => handleInputChange(e, "email")}
+                        className="border p-1"
+                      />
+                    ) : (
+                      userData.email
+                    )}
+                  </td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <input
+                        type="text"
+                        value={editableData.role || ""}
+                        onChange={(e) => handleInputChange(e, "role")}
+                        className="border p-1"
+                      />
+                    ) : (
+                      userData.role
+                    )}
+                  </td>
+                  <td>
+                    {editingUserId === userData.id ? (
+                      <select
+                        value={editableData.isVerified || false}
+                        onChange={(e) => handleInputChange(e, "isVerified")}
+                        className="border p-1"
+                      >
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                      </select>
+                    ) : (
+                      userData.isVerified ? "Yes" : "No"
+                    )}
+                  </td>
                   <td className="relative">
                     {editingUserId === userData.id ? (
-                      <button onClick={handleSave} className="flex items-center px-2 py-1 text-sm text-green-600 hover:bg-gray-100">
+                      <button
+                        onClick={handleSave}
+                        className="flex items-center px-2 py-1 text-sm text-green-600 hover:bg-gray-100"
+                      >
                         <Save className="h-4 w-4 mr-1" /> Save
                       </button>
                     ) : (
