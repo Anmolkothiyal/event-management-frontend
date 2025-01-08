@@ -3,19 +3,61 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import useUserHooks from "@/hooks/useUserHooks";
 import { MoreHorizontal, Trash, Edit, Save } from "lucide-react";
-import { Modal, Input, Select, Button, Form, message } from "antd";
+import { Form } from "antd";
 import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 import PageHeading from "@/component/core/PageHeading";
+import AddFormModal from "@/component/model/addFormModal ";
 
-const { Option } = Select;
 
 const User = () => {
-  const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible, editingUserId, editableData, handleEdit, handleInputChange, handleSave } = useUserHooks();
-  const { user } = useSelector((state) => state.authSlice);
-  const [openMenuId, setOpenMenuId] = useState(null);
-  const [isAddUserModalVisible, setAddUserModalVisible] = useState(false);
+  const {
+    fetchUsers,
+    showDeleteModal,
+    handleDeleteConfirm,
+    handleDeleteCancel,
+    isModalVisible,
+    editingUserId,
+    editableData,
+    handleEdit,
+    showAddUserModal,
+    handleAddUser,
+    isAddUserModalVisible,
+    setAddUserModalVisible,
+    handleInputChange,
+    handleSave,
+  } = useUserHooks();
   const [form] = Form.useForm();
   const dropdownRef = useRef(null);
+  
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const { user } = useSelector((state) => state.authSlice);
+
+  const userFormFields = [
+    { label: "Name", name: "name", rules: [{ required: true }] },
+    {
+      label: "Email",
+      name: "email",
+      rules: [{ required: true }],
+      type: "email",
+    },
+    {
+      label: "Password",
+      name: "password",
+      rules: [{ required: true }],
+      type: "password",
+    },
+    {
+      label: "Role",
+      name: "role",
+      type: "select",
+      options: [
+        { label: "Admin", value: "admin" },
+        { label: "Attendee", value: "attendee" },
+      ],
+      rules: [{ required: true }],
+    },
+  ];
+
 
   useEffect(() => {
     fetchUsers();
@@ -35,34 +77,6 @@ const User = () => {
     setOpenMenuId(openMenuId === userId ? null : userId);
   };
 
-  const showAddUserModal = () => {
-    setAddUserModalVisible(true);
-    form.resetFields(); 
-  };
-
-  const handleAddUser = async (values) => {
-    try {
-      const response = await fetch("https://event-mangement-backend-sj7x.onrender.com/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (response.ok) {
-        message.success("User added successfully!");
-        setAddUserModalVisible(false);
-        fetchUsers();
-      } else {
-        const error = await response.json();
-        message.error(error.message || "Failed to add user");
-      }
-    } catch (error) {
-      message.error("An error occurred while adding the user");
-    }
-  };
-
   return (
     <div className="user-container relative overflow-visible z-50">
       <PageHeading
@@ -77,7 +91,7 @@ const User = () => {
           },
         ]}
       />
-       <div className="table-responsive table-container mt-2">
+      <div className="table-responsive table-container mt-2">
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -120,12 +134,14 @@ const User = () => {
                   </td>
                   <td>
                     {editingUserId === userData.id ? (
-                      <input
-                        type="text"
-                        value={editableData.role || ""}
+                      <select
+                        value={editableData.role}
                         onChange={(e) => handleInputChange(e, "role")}
                         className="border p-1"
-                      />
+                      >
+                        <option value="admin">admin</option>
+                        <option value="attendee">attendee</option>
+                      </select>
                     ) : (
                       userData.role
                     )}
@@ -140,8 +156,10 @@ const User = () => {
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
                       </select>
+                    ) : userData.isVerified ? (
+                      "Yes"
                     ) : (
-                      userData.isVerified ? "Yes" : "No"
+                      "No"
                     )}
                   </td>
                   <td className="relative">
@@ -153,7 +171,10 @@ const User = () => {
                         <Save className="h-4 w-4 mr-1" /> Save
                       </button>
                     ) : (
-                      <button onClick={() => handleMenuClick(userData.id)} className="p-1 hover:bg-gray-100 rounded-full">
+                      <button
+                        onClick={() => handleMenuClick(userData.id)}
+                        className="p-1 hover:bg-gray-100 rounded-full"
+                      >
                         <MoreHorizontal className="h-5 w-5" />
                       </button>
                     )}
@@ -197,58 +218,20 @@ const User = () => {
           </tbody>
         </table>
       </div>
-
-      <Modal
-        title="Add User"
+      <AddFormModal
         open={isAddUserModalVisible}
         onCancel={() => setAddUserModalVisible(false)}
-        footer={null}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleAddUser}
-        >
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: "Please enter the name" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please enter the email" }]}
-          >
-            <Input type="email" />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please enter the password" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            label="Role"
-            name="role"
-            rules={[{ required: true, message: "Please select the role" }]}
-          >
-            <Select>
-              <Option value="admin">Admin</Option>
-              <Option value="attendee">User</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Add User
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+        onFinish={handleAddUser}
+        formFields={userFormFields}
+        title="Add User"
+        form={form}
+      />
 
-      <DeleteConfirmationModal open={isModalVisible} onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} />
+      <DeleteConfirmationModal
+        open={isModalVisible}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
     </div>
   );
 };
