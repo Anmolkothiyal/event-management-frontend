@@ -6,6 +6,7 @@ import PageRoutes from "@/utilis/PageRoute"
 import Api from "@/services/EndPoint"
 import axios from "@/services/axios"
 import useActionDispatch from "./useActionDispatch"
+import Cookies from "js-cookie";
 
 
 const initialSignUpBody = {
@@ -76,6 +77,7 @@ const UseAuthHook = () => {
               return
           }
           const response = await axios.post(Api.LOGIN(), authLoginState)
+          Cookies.set("token", response.data.token)
           if (response.status === 200) {
               toast.success("Login successful!")
               if (user.role === "admin") {
