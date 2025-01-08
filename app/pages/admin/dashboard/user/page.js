@@ -82,7 +82,7 @@ const User = () => {
       <PageHeading
         heading="Users"
         subHeading="Manage all users"
-        placeholder="Search by Organization Name"
+        // placeholder="Search by Organization Name"
         btns={[
           {
             label: "Add User",
