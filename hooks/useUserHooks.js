@@ -3,13 +3,17 @@ import useActionDispatch from "@/hooks/useActionDispatch";
 import axios from "@/services/axios";
 import Api from "@/services/EndPoint";
 import toast from "react-hot-toast";
+import {Form } from "antd";
 
 const useUserHooks = () => {
   const { setUser } = useActionDispatch();
+  const [form] = Form.useForm();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [editingUserId, setEditingUserId] = useState(null);
   const [editableData, setEditableData] = useState({});
+  const [isAddUserModalVisible, setAddUserModalVisible] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -95,6 +99,29 @@ const useUserHooks = () => {
     }
   };
 
+  const showAddUserModal = () => {
+    setAddUserModalVisible(true);
+    form.resetFields(); 
+  };
+
+  const handleAddUser = async (values) => {
+    try {
+      const response = await axios.post(Api.SIGNUP(), values);
+
+      if (response.status === 200) {
+        toast.success("User added successfully!");
+        setAddUserModalVisible(false);
+        fetchUsers();
+      } else {
+        const error = await response.json();
+        toast.error(error.message || "Failed to add user");
+      }
+    } catch (error) {
+      toast.error("An error occurred while adding the user");
+    }
+  };
+
+
   return {
     fetchUsers,
     isModalVisible,
@@ -105,7 +132,11 @@ const useUserHooks = () => {
     handleDeleteCancel,
     handleEdit,
     handleInputChange,
-    handleSave
+    handleSave,
+    isAddUserModalVisible,
+    setAddUserModalVisible,
+    showAddUserModal,
+    handleAddUser,
   };
 };
 
