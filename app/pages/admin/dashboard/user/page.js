@@ -3,15 +3,18 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import useUserHooks from "@/hooks/useUserHooks";
 import { MoreHorizontal, Trash, Edit, Save } from "lucide-react";
+import { Modal, Input, Select, Button, Form, message } from "antd";
 import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 import PageHeading from "@/component/core/PageHeading";
 
+const { Option } = Select;
+
 const User = () => {
-  const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible,editingUserId,editableData, handleEdit,handleInputChange,handleSave } = useUserHooks();
+  const { fetchUsers, showDeleteModal, handleDeleteConfirm, handleDeleteCancel, isModalVisible, editingUserId, editableData, handleEdit, handleInputChange, handleSave } = useUserHooks();
   const { user } = useSelector((state) => state.authSlice);
   const [openMenuId, setOpenMenuId] = useState(null);
-
-
+  const [isAddUserModalVisible, setAddUserModalVisible] = useState(false);
+  const [form] = Form.useForm();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -32,21 +35,48 @@ const User = () => {
     setOpenMenuId(openMenuId === userId ? null : userId);
   };
 
+  const showAddUserModal = () => {
+    setAddUserModalVisible(true);
+    form.resetFields(); 
+  };
+
+  const handleAddUser = async (values) => {
+    try {
+      const response = await fetch("https://event-mangement-backend-sj7x.onrender.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        message.success("User added successfully!");
+        setAddUserModalVisible(false);
+        fetchUsers();
+      } else {
+        const error = await response.json();
+        message.error(error.message || "Failed to add user");
+      }
+    } catch (error) {
+      message.error("An error occurred while adding the user");
+    }
+  };
 
   return (
     <div className="user-container relative overflow-visible z-50">
-                  <PageHeading
-                heading="Users"
-                subHeading="Manage all users"
-                placeholder="Search by Organization Name"
-                btns={[
-                    {
-                        label: "Add User",
-                        className: "",
-                    },
-                ]}
-
-            />
+      <PageHeading
+        heading="Users"
+        subHeading="Manage all users"
+        placeholder="Search by Organization Name"
+        btns={[
+          {
+            label: "Add User",
+            className: "",
+            onClick: showAddUserModal,
+          },
+        ]}
+      />
       <div className="table-responsive table-container mt-2">
         <table className="table table-bordered">
           <thead>
@@ -64,8 +94,7 @@ const User = () => {
               user.map((userData) => (
                 <tr key={userData.id}>
                   <td>{userData.id}</td>
-                  <td>
-                    {editingUserId === userData.id ? (
+                  <td>{editingUserId === userData.id ? (
                       <input
                         type="text"
                         value={editableData.name || ""}
@@ -76,50 +105,12 @@ const User = () => {
                       userData.name
                     )}
                   </td>
-                  <td>
-                    {editingUserId === userData.id ? (
-                      <input
-                        type="email"
-                        value={editableData.email || ""}
-                        onChange={(e) => handleInputChange(e, "email")}
-                        className="border p-1"
-                      />
-                    ) : (
-                      userData.email
-                    )}
-                  </td>
-                  <td>
-                    {editingUserId === userData.id ? (
-                      <input
-                        type="text"
-                        value={editableData.role || ""}
-                        onChange={(e) => handleInputChange(e, "role")}
-                        className="border p-1"
-                      />
-                    ) : (
-                      userData.role
-                    )}
-                  </td>
-                  <td>
-                    {editingUserId === userData.id ? (
-                      <select
-                        value={editableData.isVerified || false}
-                        onChange={(e) => handleInputChange(e, "isVerified")}
-                        className="border p-1"
-                      >
-                        <option value={true}>Yes</option>
-                        <option value={false}>No</option>
-                      </select>
-                    ) : (
-                      userData.isVerified ? "Yes" : "No"
-                    )}
-                  </td>
+                  <td>{userData.email}</td>
+                  <td>{userData.role}</td>
+                  <td>{userData.isVerified ? "Yes" : "No"}</td>
                   <td className="relative">
                     {editingUserId === userData.id ? (
-                      <button
-                        onClick={handleSave}
-                        className="flex items-center px-2 py-1 text-sm text-green-600 hover:bg-gray-100"
-                      >
+                      <button onClick={handleSave} className="flex items-center px-2 py-1 text-sm text-green-600 hover:bg-gray-100">
                         <Save className="h-4 w-4 mr-1" /> Save
                       </button>
                     ) : (
@@ -167,6 +158,57 @@ const User = () => {
           </tbody>
         </table>
       </div>
+
+      <Modal
+        title="Add User"
+        open={isAddUserModalVisible}
+        onCancel={() => setAddUserModalVisible(false)}
+        footer={null}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleAddUser}
+        >
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please enter the name" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please enter the email" }]}
+          >
+            <Input type="email" />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please enter the password" }]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="Role"
+            name="role"
+            rules={[{ required: true, message: "Please select the role" }]}
+          >
+            <Select>
+              <Option value="admin">Admin</Option>
+              <Option value="attendee">User</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              Add User
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
       <DeleteConfirmationModal open={isModalVisible} onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} />
     </div>
   );
