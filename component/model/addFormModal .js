@@ -30,13 +30,17 @@ const AddFormModal = ({
                   </Option>
                 ))}
               </Select>
+            ) : field.type === "textarea" ? (
+              <Input.TextArea rows={4} placeholder="Enter the event description" />
             ) : (
               <Input type={field.type || "text"} />
             )}
           </Form.Item>
         ))}
+
+        {/* Submit Button */}
         <Form.Item>
-          <Button className="bg-black" type="primary" htmlType="submit" block>
+          <Button className="bg-black text-white" type="primary" htmlType="submit" block>
             <p className="text-white">Submit</p>
           </Button>
         </Form.Item>
