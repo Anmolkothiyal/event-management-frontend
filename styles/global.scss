@@ -112,9 +112,9 @@ table {
   margin: 0 !important;
 }
 
-input[type="number"] {
-  -moz-appearance: textfield;
-}
+// input[type="number"] {
+//   -moz-appearance: textfield;
+// }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -233,7 +233,7 @@ hr {
 .webkit-line-clamp {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  // -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   transition: -webkit-line-clamp 0.5s ease;
   color: black;
@@ -542,7 +542,7 @@ background: none
 
 strong {
   color: #2c3e50;
-}
+} 
 
 @import "./header.styles.scss";
 @import "./footer.styles.scss";

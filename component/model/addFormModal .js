@@ -21,9 +21,10 @@ const AddFormModal = ({
             label={field.label}
             name={field.name}
             rules={field.rules}
+            style={{ marginBottom: '8px' }}
           >
             {field.type === "select" ? (
-              <Select>
+              <Select style={{ marginBottom: '8px' }}>
                 {field.options.map((option) => (
                   <Option key={option.value} value={option.value}>
                     {option.label}
@@ -31,7 +32,7 @@ const AddFormModal = ({
                 ))}
               </Select>
             ) : field.type === "textarea" ? (
-              <Input.TextArea rows={4} placeholder="Enter the event description" />
+              <Input.TextArea rows={4}style={{ marginBottom: '8px' }} placeholder="Enter the event description" />
             ) : (
               <Input type={field.type || "text"} />
             )}
