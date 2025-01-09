@@ -2,11 +2,12 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import axios from 'axios';
+import PageRoutes from '@/utilis/PageRoute';
 
 const VerifyEmailContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token'); // Now safely inside a client-side boundary
+  const token = searchParams.get('token');
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const VerifyEmailContent = () => {
 
         if (response.status === 200) {
           setStatus('success');
-          router.push('/auth/login?verified=true');
+          router.push(PageRoutes.LOGIN());
         }
       } catch (error) {
         console.error('Error verifying email:', error);
@@ -29,7 +30,7 @@ const VerifyEmailContent = () => {
     };
 
     verifyEmail();
-  }, [token, router]);
+  }, []);
 
   if (status === 'loading') {
     return <p>Verifying your email...</p>;
