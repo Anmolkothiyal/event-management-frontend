@@ -8,7 +8,8 @@ const Api = {
     SENDOTP:()=>`${BASE_URL}/send-otp`,
     VERIFYOTP:()=>`${BASE_URL}/verify-otp`,
     RESETPASSWORD:()=>`${BASE_URL}/reset-password`,
-    USER:()=>`${BASE_URL}/user`
-
+    USER:()=>`${BASE_URL}/user`,
+   //event api
+   EVENT:()=>`${BASE_URL}/events`
 }
 export default Api
