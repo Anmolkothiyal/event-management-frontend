@@ -13,12 +13,10 @@ const useEventHooks = () => {
   const [isAddEventModalVisible, setAddEventModalVisible] = useState(false);
   const [isUpdateEventModalVisible, setUpdateEventModalVisible] = useState(false);
   const [eventToUpdate, setEventToUpdate] = useState(null);
-
+  const [previousEvents, setPreviousEvents] = useState([]);
   const fetchEvents = async () => {
     try {
-      const response = await axios.get(
-        "https://event-mangement-backend-sj7x.onrender.com/api/events"
-      );
+      const response = await axios.get(Api.EVENT());
       const data = Array.isArray(response.data.events) ? response.data.events : response.data || [];
       setEvents(data);
     } catch (error) {
@@ -109,6 +107,16 @@ const useEventHooks = () => {
       toast.error("An error occurred while updating the event");
     }
   };
+ 
+const fetchPreviousEvents = async () => {
+  try {
+    const response = await axios.get(Api.PREVIOUEVENT());
+    const data = Array.isArray(response.data.events) ? response.data.events : response.data || [];
+    setPreviousEvents(data);
+  } catch (error) {
+    toast.error("Error fetching previous events:", error);
+  }
+};
 
   return {
     fetchEvents,
@@ -124,6 +132,8 @@ const useEventHooks = () => {
     handleUpdateEvent,
     showEventModal,
     showUpdateEventModal,
+    previousEvents,
+  fetchPreviousEvents
   };
 };
 

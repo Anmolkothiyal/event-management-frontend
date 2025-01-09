@@ -8,10 +8,12 @@ import { Calendar, Clock, MapPin, Pencil, Trash2 } from 'lucide-react';
 import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 import AddFormModal from "@/component/model/addFormModal ";
 import { Form } from "antd";
-
+import { useRouter } from "next/navigation";
+import PageRoutes from "@/utilis/PageRoute";
 const Event = () => {
   const { events } = useSelector((state) => state.eventSlice);
   const [form] = Form.useForm();
+  const router=useRouter()
   const userFormFields = [
     { label: "Event Name", name: "name", rules: [{ required: true }] },
     { label: "Location", name: "location", rules: [{ required: true }] },
@@ -47,6 +49,11 @@ const Event = () => {
         heading="Event Management System"
         subHeading="Manage all events"
         btns={[
+          {
+            label: "Previous Event",
+            className: "",
+            onClick:() => router.push(PageRoutes.PREVIOUSEVENT())
+          },
           {
             label: "Add Event",
             className: "",
