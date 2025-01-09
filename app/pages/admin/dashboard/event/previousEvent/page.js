@@ -7,7 +7,8 @@ import { Calendar, Clock, MapPin } from 'lucide-react';
 import useEventHooks from "@/hooks/useEventHooks";
 
 const PreviousEvent = () => {
-  const { previousEvents, fetchPreviousEvents } = useEventHooks();
+  const { previousEvents } = useSelector((state) => state.eventSlice);
+  const { fetchPreviousEvents } = useEventHooks();
 
   useEffect(() => {
     fetchPreviousEvents();
