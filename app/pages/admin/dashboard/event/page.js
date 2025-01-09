@@ -61,7 +61,7 @@ const Event = () => {
             <div key={event.id} className="bg-white rounded-xl shadow-lg p-6 space-y-4 transition-all duration-300 hover:shadow-xl">
               <h2 className="text-2xl font-bold text-gray-800">{event.name}</h2>
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="flex items-center gap-3 text-gray-600">
                   <Calendar className="w-5 h-5 text-blue-500" />
                   <span className="text-sm">{new Date(event.date).toLocaleDateString("en-US")}</span>
@@ -84,7 +84,7 @@ const Event = () => {
               
               <p className="text-gray-600 mt-3 text-sm">{event.description}</p>
               
-              <div className="mt-6 pt-4 border-t border-gray-200 flex justify-between">
+              <div className="mt-6 pt-2 border-t border-gray-200 flex justify-between">
                 <button 
                   className="flex items-center gap-2 px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors text-sm font-medium"
                   onClick={() => {
