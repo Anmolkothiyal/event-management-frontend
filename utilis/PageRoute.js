@@ -1,3 +1,4 @@
+import PreviousEvent from "@/app/pages/admin/dashboard/event/previousEvent/page"
 import { Ticket } from "lucide-react"
 import Feedback from "react-bootstrap/esm/Feedback"
 
@@ -16,6 +17,7 @@ DASHBOARD:()=>`/pages/dashboard`,
 ADMINDASBOARD:()=>`/pages/admin/dashboard`,
 USER:()=>`/pages/admin/dashboard/user`,
 EVENT:()=>`/pages/admin/dashboard/event`,
+PREVIOUSEVENT:()=>`/pages/admin/dashboard/event/previousEvent`,
 TICKET:()=>`/pages/admin/dashboard/ticket`,
 FEEDBACK:()=>`/pages/admin/dashboard/feedback`,
 

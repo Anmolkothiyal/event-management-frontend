@@ -10,6 +10,7 @@ const Api = {
     RESETPASSWORD:()=>`${BASE_URL}/reset-password`,
     USER:()=>`${BASE_URL}/user`,
    //event api
-   EVENT:()=>`${BASE_URL}/events`
+   EVENT:()=>`${BASE_URL}/events`,
+   PREVIOUEVENT:()=>`${BASE_URL}/previousevent`
 }
 export default Api
