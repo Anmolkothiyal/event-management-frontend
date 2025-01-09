@@ -1,12 +1,12 @@
 "use client";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import axios from 'axios';
 
-const VerifyEmail = () => {
+const VerifyEmailContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get('token'); // Now safely inside a client-side boundary
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
@@ -41,5 +41,12 @@ const VerifyEmail = () => {
 
   return <p>Verification failed. Please try again later.</p>;
 };
+
+// ✅ Wrap the component with Suspense
+const VerifyEmail = () => (
+  <Suspense fallback={<p>Loading...</p>}>
+    <VerifyEmailContent />
+  </Suspense>
+);
 
 export default VerifyEmail;
