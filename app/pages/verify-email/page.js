@@ -1,11 +1,12 @@
-"use client"
-import { useRouter } from 'next/navigation';
+"use client";
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const VerifyEmail = () => {
   const router = useRouter();
-  const { token } = router.query;
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
