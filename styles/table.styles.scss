@@ -11,7 +11,14 @@
   
   .table-container {
     position: relative;
-  
+    h2 {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    p{
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
     table {
       thead {
         tr {
