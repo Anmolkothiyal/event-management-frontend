@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import { logout, setUser } from "@/redux/slice/auth.slice"
 import {setEvents,setPreviousEvents} from "@/redux/slice/event.Slice"
+import { setTickets } from "@/redux/slice/ticket.slice"
 
 
 const useActionDispatch = ()=>{
@@ -12,6 +13,7 @@ const useActionDispatch = ()=>{
         logout:(e) => dispatch(logout(e)),
         setEvents:(e) => dispatch(setEvents(e)),
         setPreviousEvents:(e) => dispatch(setPreviousEvents(e)),
+        setTickets:(e) => dispatch(setTickets(e)),
         
     })
 

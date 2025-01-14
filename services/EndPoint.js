@@ -14,5 +14,6 @@ const Api = {
    PREVIOUEVENT:()=>`${BASE_URL}/previousevent`,
    //ticket api
    TICKETS: () => `${BASE_URL}/tickets`,
+   ALLTICKETS: () => `${BASE_URL}/all-events`,
 }
 export default Api
