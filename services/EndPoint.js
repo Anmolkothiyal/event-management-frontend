@@ -11,6 +11,8 @@ const Api = {
     USER:()=>`${BASE_URL}/user`,
    //event api
    EVENT:()=>`${BASE_URL}/events`,
-   PREVIOUEVENT:()=>`${BASE_URL}/previousevent`
+   PREVIOUEVENT:()=>`${BASE_URL}/previousevent`,
+   //ticket api
+   TICKETS: () => `${BASE_URL}/tickets`,
 }
 export default Api
