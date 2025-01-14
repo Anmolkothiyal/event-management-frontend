@@ -68,45 +68,86 @@ const useEventHooks = () => {
     });
   };
 
-  const handleEventUser = async (values) => {
-    try {
-      const response = await axios.post(Api.EVENT(), values);
 
-      if (response.status === 200) {
-        toast.success("Event added successfully!");
-        setAddEventModalVisible(false);
-        fetchEvents();
-      } else {
-        const error = await response.json();
-        toast.error(error.message || "Failed to add event");
-      }
-    } catch (error) {
-      toast.error("An error occurred while adding the event");
+  const handleEventUser = async (values) => {
+    const formData = new FormData();
+    
+    // Handle all non-file fields
+    Object.keys(values).forEach((key) => {
+        if (key !== 'image') {
+            formData.append(key, values[key]);
+        }
+    });
+    
+    // Handle file upload - Fix for Ant Design Upload component
+    if (values.image?.[0]?.originFileObj) {
+        formData.append('image', values.image[0].originFileObj);
+    } else if (values.image?.file) {
+        formData.append('image', values.image.file);
+    } else if (values.image instanceof File) {
+        formData.append('image', values.image);
     }
-  };
+
+    try {
+        const response = await axios.post(Api.EVENT(), formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        
+        if (response.status === 200) {
+            toast.success("Event added successfully!");
+            setAddEventModalVisible(false);
+            fetchEvents();
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        // Log the actual error response for debugging
+        if (error.response) {
+            console.log('Error response:', error.response.data);
+        }
+        toast.error(error.response?.data?.message || "An error occurred while adding the event");
+    }
+};
 
   const handleUpdateEvent = async (values) => {
-    try {
-      const response = await axios.put(`${Api.EVENT()}/${eventToUpdate.id}`, {
-        name: values.name,
-        description: values.description,
-        location: values.location,
-        date: values.date,
-        start_time: values.start_time,
-        end_time: values.end_time
-      });
-
-      if (response.status === 200) {
-        toast.success("Event updated successfully!");
-        setUpdateEventModalVisible(false);
-        fetchEvents();
-      } else {
-        toast.error("Failed to update event");
-      }
-    } catch (error) {
-      toast.error("An error occurred while updating the event");
+    const formData = new FormData();
+    
+    Object.keys(values).forEach((key) => {
+        if (key !== 'image') {
+            formData.append(key, values[key]);
+        }
+    });
+    
+    // Handle file upload - Fix for Ant Design Upload component
+    if (values.image?.[0]?.originFileObj) {
+        formData.append('image', values.image[0].originFileObj);
+    } else if (values.image?.file) {
+        formData.append('image', values.image.file);
+    } else if (values.image instanceof File) {
+        formData.append('image', values.image);
     }
-  };
+
+    try {
+        const response = await axios.put(`${Api.EVENT()}/${eventToUpdate.id}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        
+        if (response.status === 200) {
+            toast.success("Event updated successfully!");
+            setUpdateEventModalVisible(false);
+            fetchEvents();
+        }
+    } catch (error) {
+        console.error('Update error:', error);
+        if (error.response) {
+            console.log('Error response:', error.response.data);
+        }
+        toast.error(error.response?.data?.message || "An error occurred while updating the event");
+    }
+};
  
 const fetchPreviousEvents = async () => {
   try {

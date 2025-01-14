@@ -42,8 +42,6 @@ const VerifyEmailContent = () => {
 
   return <p>Verification failed. Please try again later.</p>;
 };
-
-// ✅ Wrap the component with Suspense
 const VerifyEmail = () => (
   <Suspense fallback={<p>Loading...</p>}>
     <VerifyEmailContent />
