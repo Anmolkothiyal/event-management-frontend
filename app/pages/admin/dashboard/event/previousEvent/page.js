@@ -5,6 +5,7 @@ import PageHeading from "@/component/core/PageHeading";
 import { useSelector } from "react-redux";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import useEventHooks from "@/hooks/useEventHooks";
+import withAuth from "@/component/HOC/withAuth";
 
 const PreviousEvent = () => {
   const { previousEvents } = useSelector((state) => state.eventSlice);
@@ -92,4 +93,4 @@ const PreviousEvent = () => {
   );
 };
 
-export default PreviousEvent;
+export default withAuth(PreviousEvent)

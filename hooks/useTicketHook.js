@@ -12,7 +12,6 @@ const useTicketHook = () => {
       try {
         const { data } = await axios.get(Api.ALLTICKETS());
         setTickets(data.data);
-        toast.success("tickets fetched successfully");
       } catch (error) {
        toast.error("Failed to fetch tickets", error);
 

@@ -10,6 +10,7 @@ import AddFormModal from "@/component/model/addFormModal ";
 import { Form } from "antd";
 import { useRouter } from "next/navigation";
 import PageRoutes from "@/utilis/PageRoute";
+import withAuth from "@/component/HOC/withAuth";
 
 const Event = () => {
   const { events } = useSelector((state) => state.eventSlice);
@@ -212,4 +213,4 @@ const Event = () => {
   );
 };
 
-export default Event
+export default withAuth(Event)

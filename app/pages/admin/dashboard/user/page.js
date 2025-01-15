@@ -7,6 +7,7 @@ import { Form } from "antd";
 import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 import PageHeading from "@/component/core/PageHeading";
 import AddFormModal from "@/component/model/addFormModal ";
+import withAuth from "@/component/HOC/withAuth";
 
 
 const User = () => {
@@ -236,4 +237,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default withAuth(User);
