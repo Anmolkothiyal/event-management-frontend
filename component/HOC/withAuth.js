@@ -1,4 +1,4 @@
-
+"use client"
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import PageRoutes from '@/utilis/PageRoute';
