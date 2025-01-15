@@ -22,9 +22,10 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      state.loginDetails = false;
+      state.loginDetails = { isauth: false };
+      Cookies.remove('loginDetails');
       localStorage.removeItem("token");
-    }
+    },
   },
 });
 
