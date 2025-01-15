@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import useTicketHook from "@/hooks/useTicketHook";
 import { useSelector } from "react-redux";
 import PageHeading from "@/component/core/PageHeading";
+import withAuth from "@/component/HOC/withAuth";
 
 const Ticket = () => {
   const { fetchEvents } = useTicketHook();
@@ -70,4 +71,4 @@ const Ticket = () => {
   );
 };
 
-export default Ticket;
+export default withAuth(Ticket)
