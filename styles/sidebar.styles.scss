@@ -119,13 +119,6 @@
     color: var(--text-primary);
   }
 
-  
-
-body {
-  margin: 0;
-  padding-bottom: 80px;
-  overflow-x: hidden;
-}
 
 .mobile-footer {
   position: fixed;
@@ -177,4 +170,8 @@ body {
   .mobile-only {
     display: flex;
   }
+  body {
+  margin: 0;
+  padding-bottom: 80px;
+  overflow-x: hidden;}
 }

@@ -5,8 +5,21 @@ import Api from "@/services/EndPoint";
 import toast from "react-hot-toast";
 import {Form } from "antd";
 
+
 const useTicketHook = () => {
+  const [form] = Form.useForm();
   const { setTickets } = useActionDispatch();
+  const [isAddTicketModalVisible, setAddTicketModalVisible] = useState(false);
+
+  const showTicketModal = () => {
+    console.log("showTicketModal");
+    setAddTicketModalVisible(true);
+    form.resetFields();
+  };
+
+  const ticketSubmitHandler = () => {
+    console.log("ticketSubmitHandler");
+  }
 
       const fetchEvents = async () => {
       try {
@@ -19,7 +32,11 @@ const useTicketHook = () => {
     };
 
   return {
-    fetchEvents
+    fetchEvents,
+    ticketSubmitHandler,
+    isAddTicketModalVisible,
+    setAddTicketModalVisible,
+    showTicketModal,
 
   };
 };

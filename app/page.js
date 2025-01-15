@@ -93,13 +93,13 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      {/* <footer className="bg-gray-500 text-white py-5 px-4">
+      <footer className="bg-gray-500 text-white py-5 px-4 position: relative bottom-0 w-full">
       <div className="max-w-5xl mx-auto text-center text-sm sm:text-base">
         <p className="font-medium tracking-wide">
           &copy; {new Date().getFullYear()} EventManager. All rights reserved.
         </p>
       </div>
-     </footer> */}
+     </footer>
       </div>
   );
 }

@@ -5,15 +5,22 @@ import useTicketHook from "@/hooks/useTicketHook";
 import { useSelector } from "react-redux";
 import PageHeading from "@/component/core/PageHeading";
 import withAuth from "@/component/HOC/withAuth";
+import AddFormModal from "@/component/model/addFormModal ";
+import { Form } from "antd";
 
 const Ticket = () => {
-  const { fetchEvents } = useTicketHook();
+  const [form] = Form.useForm();
+  const { fetchEvents,ticketSubmitHandler,isAddTicketModalVisible,setAddTicketModalVisible,showTicketModal } = useTicketHook();
   const { tickets } = useSelector((state) => state.ticketSlice);
   const events = tickets.events;
 
   useEffect(() => {
     fetchEvents(); 
   }, []);
+
+  const ticketSubmitHandlers = () => {
+    console.log("ticketSubmitHandler");
+  }
 
 
 
@@ -26,7 +33,7 @@ const Ticket = () => {
         {
           label: "Add Tickets",
           className: "",
-        //   onClick: showEventModal,
+          onClick: ticketSubmitHandlers,
         },
       ]}
     />
@@ -67,6 +74,15 @@ const Ticket = () => {
           </table>
         </div>
       ))}
+
+     <AddFormModal
+        open={isAddTicketModalVisible}
+        onCancel={() => setAddTicketModalVisible(false)}
+        // onFinish={handleEventUser}
+        // formFields={userFormFields}
+        title="Add Ticket"
+        form={form}
+      />
     </div>
   );
 };
