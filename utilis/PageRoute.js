@@ -1,6 +1,3 @@
-import PreviousEvent from "@/app/pages/admin/dashboard/event/previousEvent/page"
-import { Ticket } from "lucide-react"
-import Feedback from "react-bootstrap/esm/Feedback"
 
 const PageRoutes={
 SIGNUP:()=>`/pages/auth/Signup`,
