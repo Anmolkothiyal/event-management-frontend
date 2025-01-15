@@ -18,9 +18,6 @@ const Ticket = () => {
     fetchEvents(); 
   }, []);
 
-  const ticketSubmitHandlers = () => {
-    console.log("ticketSubmitHandler");
-  }
 
 
 
@@ -33,7 +30,7 @@ const Ticket = () => {
         {
           label: "Add Tickets",
           className: "",
-          onClick: ticketSubmitHandlers,
+          onClick: showTicketModal,
         },
       ]}
     />
@@ -75,14 +72,14 @@ const Ticket = () => {
         </div>
       ))}
 
-     <AddFormModal
+     {/* <AddFormModal
         open={isAddTicketModalVisible}
         onCancel={() => setAddTicketModalVisible(false)}
         // onFinish={handleEventUser}
         // formFields={userFormFields}
         title="Add Ticket"
         form={form}
-      />
+      /> */}
     </div>
   );
 };

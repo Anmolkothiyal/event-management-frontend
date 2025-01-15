@@ -36,7 +36,7 @@ const PreviousEvent = () => {
                       ? `${process.env.NEXT_PUBLIC_API_URL}${event.image}`
                       : "/placeholder-image.jpg"
                   }
-                  alt={event.name}
+                  // alt={event.name}
                   className="w-full h-64 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>
