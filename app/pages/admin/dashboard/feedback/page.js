@@ -1,5 +1,3 @@
-import withAuth from "@/component/HOC/withAuth"
-
 const Feedback = ()=>
 {
    return(
@@ -8,4 +6,4 @@ const Feedback = ()=>
     </div>
    )
 }
-export default withAuth(Feedback)
+export default Feedback
