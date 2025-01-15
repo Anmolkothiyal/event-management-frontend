@@ -110,7 +110,6 @@ const Event = () => {
               key={event.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
             >
-              ;
               <div className="relative rounded-lg overflow-hidden shadow-lg">
                 <img
                   src={
@@ -118,7 +117,7 @@ const Event = () => {
                       ? `${process.env.NEXT_PUBLIC_API_URL}${event.image}`
                       : "/placeholder-image.jpg"
                   }
-                  alt={event.name}
+                  // alt={event.name}
                   className="w-full h-64 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70"></div>

@@ -33,10 +33,9 @@ const UseAuthHook = () => {
     const [authVerifyOtpState, setauthVerifyOtpState] = useState({ ...initialVerifyOtpBody })
     const [authResetPasswordState, setAuthResetPasswordState] = useState({ ...initialResetPasswordBody })
     const [showPassword, setShowPassword] = useState(false)
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword)
+    const togglePasswordVisibility = () => {setShowPassword(!showPassword)
     }
-    const {logout}= useActionDispatch()
+    const {logout, setLoginDetails}= useActionDispatch()
 
     const fetchUserByEmail = async (email) => {
         try {
@@ -77,6 +76,7 @@ const UseAuthHook = () => {
               return
           }
           const response = await axios.post(Api.LOGIN(), authLoginState)
+          setLoginDetails({isauth:true})
           Cookies.set("token", response.data.token)
           if (response.status === 200) {
               toast.success("Login successful!")

@@ -1,21 +1,14 @@
-"use client"
-import useUserHooks from "@/hooks/useUserHooks"
-import { useEffect } from "react"
+"use client";
+import React from "react";
+import withAuth from "@/component/HOC/withAuth";
 
-const AdminDashboard = ()=>
-{
-  const{
-    fetchUsers
+const AdminDashboard = () => {
 
-  }=useUserHooks()
-  useEffect(() => {
-     fetchUsers();
-   }, []);
- 
-  return(
+  return (
     <>
-    <h1 className="text-center">Welcome to admin AdminDashboard</h1>
+      <h1 className="text-center">Welcome to admin AdminDashboard</h1>
     </>
-  )
-}
-export default AdminDashboard
+  );
+};
+export default withAuth(AdminDashboard);
+
