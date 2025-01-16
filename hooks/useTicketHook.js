@@ -17,10 +17,16 @@ const useTicketHook = () => {
     form.resetFields();
   };
 
-  const ticketSubmitHandler = () => {
-    console.log("ticketSubmitHandler");
-  }
-
+  const ticketSubmitHandler = async (formData) => {
+    try {
+      const { data } = await axios.post(Api.TICKETS(), formData);
+      toast.success(data.message)
+      fetchEvents();
+      setAddTicketModalVisible(false);
+    } catch (error) {
+      toast.error("Failed to create tickets", error);
+    }
+  };
       const fetchEvents = async () => {
       try {
         const { data } = await axios.get(Api.ALLTICKETS());

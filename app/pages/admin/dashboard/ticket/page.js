@@ -5,7 +5,7 @@ import useTicketHook from "@/hooks/useTicketHook";
 import { useSelector } from "react-redux";
 import PageHeading from "@/component/core/PageHeading";
 import withAuth from "@/component/HOC/withAuth";
-import AddFormModal from "@/component/model/addFormModal ";
+import AddTicketModal from "@/component/model/AddTicketsModal";
 import { Form } from "antd";
 
 const Ticket = () => {
@@ -72,14 +72,32 @@ const Ticket = () => {
         </div>
       ))}
 
-     {/* <AddFormModal
-        open={isAddTicketModalVisible}
-        onCancel={() => setAddTicketModalVisible(false)}
-        // onFinish={handleEventUser}
-        // formFields={userFormFields}
-        title="Add Ticket"
-        form={form}
-      /> */}
+<AddTicketModal
+  open={isAddTicketModalVisible}
+  onCancel={() => setAddTicketModalVisible(false)}
+  onFinish={ticketSubmitHandler} 
+  formFields={[
+    {
+      name: "eventName",
+      label: "Event Name",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "Tickets",
+      label: "Tickets",
+      type: "dynamicArray",
+      fields: [
+        { name: "category", label: "Category", type: "text", required: true },
+        { name: "price", label: "Price", type: "number", required: true },
+        { name: "quantity", label: "Quantity", type: "number", required: true },
+      ],
+    },
+  ]}
+  form={form}
+  title="Add Ticket"
+/>
+
     </div>
   );
 };
