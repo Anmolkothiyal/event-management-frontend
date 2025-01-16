@@ -1,12 +1,53 @@
 import React from "react";
-import { Modal, Form, Input, InputNumber, Button, Space } from "antd";
+import { useSelector } from "react-redux";
+import { Modal, Form, Select, InputNumber, Button, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-
+ 
 const AddTicketModal = ({ open, onCancel, onFinish, form, title }) => {
+  // Fetch event options from Redux
+  const events = useSelector((state) => state.eventSlice.events || []);
+  const eventOptions = events.map((event) => ({
+    value: event.name,
+    label: event.name,
+  }));
+ 
+  const ticketFields = [
+    {
+      name: "Tickets",
+      label: "Tickets",
+      type: "dynamicArray",
+      fields: [
+        {
+          name: "category",
+          label: "Category",
+          type: "select",
+          required: true,
+          options: [
+            { value: "Gold", label: "Gold" },
+            { value: "Silver", label: "Silver" },
+            { value: "Platinum", label: "Platinum" },
+          ],
+        },
+        {
+          name: "price",
+          label: "Price",
+          type: "number",
+          required: true,
+        },
+        {
+          name: "quantity",
+          label: "Quantity",
+          type: "number",
+          required: true,
+        },
+      ],
+    },
+  ];
+ 
   return (
     <Modal
       title={title}
-      visible={open}
+      open={open}
       onCancel={onCancel}
       footer={null}
     >
@@ -15,89 +56,96 @@ const AddTicketModal = ({ open, onCancel, onFinish, form, title }) => {
         layout="vertical"
         onFinish={onFinish}
         initialValues={{
-          Tickets: [
-            { category: "", price: null, quantity: null }, 
-          ],
+          Tickets: [{ category: "", price: null, quantity: null }],
         }}
       >
         {/* Event Name */}
         <Form.Item
           name="eventName"
           label="Event Name"
-          rules={[{ required: true, message: "Please enter the event name" }]}
+          rules={[{ required: true, message: "Please select an event" }]}
         >
-          <Input placeholder="Enter event name" />
+          <Select placeholder="Select an Event">
+            {eventOptions.map((option) => (
+              <Select.Option key={option.value} value={option.value}>
+                {option.label}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
-
-        {/* Tickets (Dynamic Fields) */}
-        <Form.List name="Tickets">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, fieldKey, ...restField }) => (
-                <Space
-                  key={key}
-                  style={{ display: "flex", marginBottom: 8 }}
-                  align="baseline"
-                >
-                  <Form.Item
-                    {...restField}
-                    name={[name, "category"]}
-                    fieldKey={[fieldKey, "category"]}
-                    rules={[
-                      { required: true, message: "Please enter a category" },
-                    ]}
-                  >
-                    <Input placeholder="Category" />
-                  </Form.Item>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "price"]}
-                    fieldKey={[fieldKey, "price"]}
-                    rules={[
-                      { required: true, message: "Please enter the price" },
-                    ]}
-                  >
-                    <InputNumber placeholder="Price" min={1} />
-                  </Form.Item>
-                  <Form.Item
-                    {...restField}
-                    name={[name, "quantity"]}
-                    fieldKey={[fieldKey, "quantity"]}
-                    rules={[
-                      { required: true, message: "Please enter the quantity" },
-                    ]}
-                  >
-                    <InputNumber placeholder="Quantity" min={1} />
-                  </Form.Item>
-                  <MinusCircleOutlined
-                    onClick={() => remove(name)}
-                    style={{ color: "red" }}
-                  />
-                </Space>
-              ))}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  icon={<PlusOutlined />}
-                  block
-                >
-                  Add Ticket Category
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
-
+ 
+        {/* Dynamic Ticket Fields */}
+        {ticketFields.map((field) => {
+          if (field.type === "dynamicArray") {
+            return (
+              <Form.List key={field.name} name={field.name}>
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name, fieldKey, ...restField }) => (
+                      <Space key={key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
+                        {field.fields.map((subField) => (
+                          <Form.Item
+                            key={subField.name}
+                            {...restField}
+                            name={[name, subField.name]}
+                            label={subField.label}
+                            rules={[
+                              {
+                                required: subField.required,
+                                message: `Please enter ${subField.label}`,
+                              },
+                            ]}
+                          >
+                            {subField.type === "select" ? (
+                              <Select placeholder={`Select ${subField.label}`}>
+                                {subField.options?.map((option) => (
+                                  <Select.Option key={option.value} value={option.value}>
+                                    {option.label}
+                                  </Select.Option>
+                                ))}
+                              </Select>
+                            ) : (
+                              <InputNumber
+                                placeholder={subField.label}
+                                min={1}
+                                style={{ width: "100%" }}
+                              />
+                            )}
+                          </Form.Item>
+                        ))}
+                        <MinusCircleOutlined
+                          onClick={() => remove(name)}
+                          style={{ color: "red", marginTop: "30px" }}
+                        />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button
+                        type="dashed"
+                        onClick={() => add()}
+                        icon={<PlusOutlined />}
+                        block
+                      >
+                        Add Ticket Category
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+            );
+          }
+          return null;
+        })}
+ 
         {/* Submit Button */}
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            Submit
+          <Button className="bg-black text-white" type="primary" htmlType="submit" block>
+            <p className="text-white">Submit</p>
           </Button>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
-
+ 
 export default AddTicketModal;
