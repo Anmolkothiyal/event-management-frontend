@@ -11,34 +11,37 @@ const useTicketHook = () => {
   const { setTickets } = useActionDispatch();
   const [isAddTicketModalVisible, setAddTicketModalVisible] = useState(false);
 
-  const showTicketModal = () => {
-    console.log("showTicketModal");
-    setAddTicketModalVisible(true);
-    form.resetFields();
+
+  const fetchTickets = async () => {
+    try {
+      const { data } = await axios.get(Api.ALLTICKETS());
+      setTickets(data.data);
+    } catch (error) {
+     toast.error("Failed to fetch tickets", error);
+
+    }
   };
 
   const ticketSubmitHandler = async (formData) => {
     try {
       const { data } = await axios.post(Api.TICKETS(), formData);
       toast.success(data.message)
-      fetchEvents();
+      fetchTickets();
       setAddTicketModalVisible(false);
     } catch (error) {
       toast.error("Failed to create tickets", error);
     }
   };
-      const fetchEvents = async () => {
-      try {
-        const { data } = await axios.get(Api.ALLTICKETS());
-        setTickets(data.data);
-      } catch (error) {
-       toast.error("Failed to fetch tickets", error);
 
-      }
-    };
+  const showTicketModal = () => {
+    console.log("showTicketModal");
+    setAddTicketModalVisible(true);
+    form.resetFields();
+  };
+
 
   return {
-    fetchEvents,
+    fetchTickets,
     ticketSubmitHandler,
     isAddTicketModalVisible,
     setAddTicketModalVisible,
