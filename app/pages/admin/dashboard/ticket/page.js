@@ -30,7 +30,7 @@ const Ticket = () => {
       label: "Event Name",
       name: "eventName",
       type: "select",
-      options: [], // This will be populated dynamically from Redux
+      options: [], 
       rules: [{ required: true, message: "Please select an event" }],
     },
     {
@@ -82,43 +82,56 @@ const Ticket = () => {
         ]}
       />
       {/* {JSON.stringify(events)} */}
-      {events &&
-        events.map((event, index) => (
-          <div key={index} className="table-responsive table-container mt-2">
-            <h2>Event: {event.eventDetails.name}</h2>
-            <p>Total Tickets: {event.totalStats.totalTickets}</p>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Total Tickets</th>
-                  <th>Available</th>
-                  <th>Sold</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {event.ticketCategories.map((category, catIndex) => (
-                  <tr key={catIndex}>
-                    <td>{category.category}</td>
-                    <td>₹{category.price}</td>
-                    <td>{category.totalTickets}</td>
-                    <td>{category.availableTickets}</td>
-                    <td>{category.soldTickets}</td>
-                    <td>
-                      {category.availableTickets > 0 ? (
-                        <span style={{ color: "green" }}>Available</span>
-                      ) : (
-                        <span style={{ color: "red" }}>Sold Out</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ))}
+      {events && events.length > 0 ? (
+  events.map((event, index) => (
+    <div key={index} className="table-responsive table-container mt-2">
+      <h2>Event: {event.eventDetails.name}</h2>
+      <p>Total Tickets: {event.totalStats.totalTickets}</p>
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Total Tickets</th>
+            <th>Available</th>
+            <th>Sold</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {event.ticketCategories.length > 0 ? (
+            event.ticketCategories.map((category, catIndex) => (
+              <tr key={catIndex}>
+                <td>{category.category}</td>
+                <td>₹{category.price}</td>
+                <td>{category.totalTickets}</td>
+                <td>{category.availableTickets}</td>
+                <td>{category.soldTickets}</td>
+                <td>
+                  {category.availableTickets > 0 ? (
+                    <span style={{ color: "green" }}>Available</span>
+                  ) : (
+                    <span style={{ color: "red" }}>Sold Out</span>
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" style={{ textAlign: "center" }}>
+                No categories found for this event.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  ))
+) : (
+  <div className="no-events-message" style={{ textAlign: "center" }}>
+    No events found.
+  </div>
+)}
 
       <AddTicketModal
         open={isAddTicketModalVisible}
