@@ -17,7 +17,8 @@ const useTicketHook = () => {
       const { data } = await axios.get(Api.ALLTICKETS());
       setTickets(data.data);
     } catch (error) {
-     toast.error("Failed to fetch tickets", error);
+      const errorMessage = error.response?.data?.msg || "Failed to create tickets"; 
+      toast.error(errorMessage);
 
     }
   };
@@ -29,12 +30,12 @@ const useTicketHook = () => {
       fetchTickets();
       setAddTicketModalVisible(false);
     } catch (error) {
-      toast.error("Failed to create tickets", error);
+      const errorMessage = error.response?.data?.msg || "Failed to create tickets";
+      toast.error(errorMessage);
     }
   };
 
   const showTicketModal = () => {
-    console.log("showTicketModal");
     setAddTicketModalVisible(true);
     form.resetFields();
   };
