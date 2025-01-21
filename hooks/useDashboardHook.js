@@ -1,4 +1,3 @@
-import { useState } from "react"
 import axios from "@/services/axios"
 import { useRouter } from "next/navigation"
 import "chart.js/auto"
