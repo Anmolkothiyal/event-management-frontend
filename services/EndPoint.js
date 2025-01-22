@@ -15,6 +15,7 @@ const Api = {
    //ticket api
    TICKETS: () => `${BASE_URL}/tickets`,
    ALLTICKETS: () => `${BASE_URL}/all-events`,
-   DASHBOARDSTATS:()=>`${BASE_URL}/dashboard/stats`
+   DASHBOARDSTATS:()=>`${BASE_URL}/dashboard/stats`,
+   FEEDBACK:()=>`${BASE_URL}/feedback`,
 }
 export default Api

@@ -1,30 +1,28 @@
-"use client"
-import React, { useEffect } from "react"
-import withAuth from "@/component/HOC/withAuth"
-import { Pie, Bar } from "react-chartjs-2"
-import "chart.js/auto"
-import PageRoutes from "@/utilis/PageRoute"
-import useDashboardHook from "@/hooks/useDashboardHook"
-import { useSelector } from "react-redux"
+"use client";
+
+import React, { useEffect } from "react";
+import withAuth from "@/component/HOC/withAuth";
+import { Pie, Bar } from "react-chartjs-2";
+import "chart.js/auto";
+import PageRoutes from "@/utilis/PageRoute";
+import useDashboardHook from "@/hooks/useDashboardHook";
+import { useSelector } from "react-redux";
+import PageHeading from "@/component/core/PageHeading";
 
 const AdminDashboard = () => {
- 
-
   useEffect(() => {
-    fetchStats()
-  }, [])
-  const {dashboard}=useSelector((state) => state.dashboardSlice)
-  const{
-       fetchStats,
-        pieData,
-        barData,
-        handleNavigation
+    fetchStats();
+  }, []);
 
-  }=useDashboardHook()
+  const { dashboard } = useSelector((state) => state.dashboardSlice);
+  const { fetchStats, pieData, barData, handleNavigation } = useDashboardHook();
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8">Dashboard</h1>
+    <div className="user-container relative overflow-visible z-50">
+      <PageHeading 
+        heading="Admin Dashboard"
+        subHeading="Overview of system statistics and metrics"
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 sm:mb-8">
         <div
@@ -64,8 +62,7 @@ const AdminDashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withAuth(AdminDashboard)
-
+export default withAuth(AdminDashboard);
