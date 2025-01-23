@@ -8,22 +8,27 @@ const useFeedbackHooks = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const { data } = await axios.get(Api.FEEDBACK());
-      setFeedbacks(data.feedbacks);
+      const { data } = await axios.get(Api.FEEDBACK()); 
+      const previousEventFeedbacks = data.feedbacks.filter(
+        feedback => feedback.event && new Date(feedback.event.date) < new Date()
+      );
+      setFeedbacks(previousEventFeedbacks);
     } catch (error) {
       toast.error(error.response?.data?.msg || "Failed to fetch feedbacks");
     }
   };
-
   const groupedFeedbacks = feedbacks.reduce((acc, feedback) => {
-    const eventId = feedback.event.id;
-    if (!acc[eventId]) {
-      acc[eventId] = {
-        eventDetails: feedback.event,
-        feedbacks: []
-      };
+
+    if (feedback.event && feedback.event.id) {
+      const eventId = feedback.event.id;
+      if (!acc[eventId]) {
+        acc[eventId] = {
+          eventDetails: feedback.event,
+          feedbacks: []
+        };
+      }
+      acc[eventId].feedbacks.push(feedback);
     }
-    acc[eventId].feedbacks.push(feedback);
     return acc;
   }, {});
 
