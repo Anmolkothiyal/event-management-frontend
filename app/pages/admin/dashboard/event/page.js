@@ -56,7 +56,6 @@ const Event = () => {
       uploadProps: {
         accept: "image/*",
         beforeUpload: (file) => {
-          // Prevent automatic upload
           return false;
         },
         maxCount: 1,
@@ -114,8 +113,8 @@ const Event = () => {
                 <img
                   src={
                     event.image
-                      ? `${process.env.NEXT_PUBLIC_API_URL}${event.image}`
-                      : "/placeholder-image.jpg"
+                    ? event.image 
+                    : "/placeholder-image.jpg"
                   }
                   // alt={event.name}
                   className="w-full h-64 object-cover"
