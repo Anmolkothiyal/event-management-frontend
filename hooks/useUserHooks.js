@@ -4,7 +4,7 @@ import axios from "@/services/axios";
 import Api from "@/services/EndPoint";
 import toast from "react-hot-toast";
 import {Form } from "antd";
-
+import { useSelector } from "react-redux";
 const useUserHooks = () => {
   const { setUser } = useActionDispatch();
   const [form] = Form.useForm();
@@ -14,7 +14,23 @@ const useUserHooks = () => {
   const [editingUserId, setEditingUserId] = useState(null);
   const [editableData, setEditableData] = useState({});
   const [isAddUserModalVisible, setAddUserModalVisible] = useState(false);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const { user } = useSelector((state) => state.authSlice);
+  const handleSearch = (searchTerm) => {
+    if (!searchTerm) {
+      setFilteredUsers(user);
+      return;
+    }
 
+    const lowercasedTerm = searchTerm.toLowerCase();
+    const filtered = user.filter(userData => 
+      userData.name.toLowerCase().includes(lowercasedTerm) ||
+      userData.email.toLowerCase().includes(lowercasedTerm) ||
+      userData.role.toLowerCase().includes(lowercasedTerm)
+    );
+
+    setFilteredUsers(filtered);
+  };
   const fetchUsers = async () => {
     try {
       const response = await axios.get(Api.USER());
@@ -137,6 +153,8 @@ const useUserHooks = () => {
     setAddUserModalVisible,
     showAddUserModal,
     handleAddUser,
+    handleSearch,
+    filteredUsers
   };
 };
 

@@ -8,7 +8,7 @@ import DeleteConfirmationModal from "@/component/model/deleteConfirmModel";
 import PageHeading from "@/component/core/PageHeading";
 import AddFormModal from "@/component/model/addFormModal ";
 import withAuth from "@/component/HOC/withAuth";
-
+import Search from "@/component/core/serach";
 
 const User = () => {
   const {
@@ -26,13 +26,16 @@ const User = () => {
     setAddUserModalVisible,
     handleInputChange,
     handleSave,
+    handleSearch,
+    filteredUsers
   } = useUserHooks();
   const [form] = Form.useForm();
   const dropdownRef = useRef(null);
   
   const [openMenuId, setOpenMenuId] = useState(null);
   const { user } = useSelector((state) => state.authSlice);
-
+  
+  
   const userFormFields = [
     { label: "Name", name: "name", rules: [{ required: true }] },
     {
@@ -77,7 +80,8 @@ const User = () => {
   const handleMenuClick = (userId) => {
     setOpenMenuId(openMenuId === userId ? null : userId);
   };
-
+ 
+  const usersToRender = filteredUsers.length > 0 ? filteredUsers : user;
   return (
     <div className="user-container relative overflow-visible z-50">
       <PageHeading
@@ -92,6 +96,12 @@ const User = () => {
           },
         ]}
       />
+      <Search 
+        onSearch={handleSearch} 
+        placeholder="Search by Name, Email, or Role" 
+        className="mb-4"
+      />
+
       <div className="table-responsive table-container mt-2">
         <table className="table table-bordered">
           <thead>
@@ -105,8 +115,8 @@ const User = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(user) && user.length > 0 ? (
-              user.map((userData) => (
+          {Array.isArray(usersToRender) && usersToRender.length > 0 ? (
+              usersToRender.map((userData) => (
                 <tr key={userData.id}>
                   <td>{userData.id}</td>
                   <td>

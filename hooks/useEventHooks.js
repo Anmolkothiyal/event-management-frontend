@@ -4,7 +4,7 @@ import axios from "@/services/axios";
 import Api from "@/services/EndPoint";
 import toast from "react-hot-toast";
 import { Form } from "antd";
-
+import { uploadFile } from "@uploadcare/upload-client";
 const useEventHooks = () => {
   const { setEvents,setPreviousEvents } = useActionDispatch();
   const [form] = Form.useForm();
@@ -69,147 +69,76 @@ const useEventHooks = () => {
   };
 
 
-//   const handleEventUser = async (values) => {
-//     const formData = new FormData();
-    
-//     // Handle all non-file fields
-//     Object.keys(values).forEach((key) => {
-//         if (key !== 'image') {
-//             formData.append(key, values[key]);
-//         }
-//     });
-    
-//     // Handle file upload - Fix for Ant Design Upload component
-//     if (values.image?.[0]?.originFileObj) {
-//         formData.append('image', values.image[0].originFileObj);
-//     } else if (values.image?.file) {
-//         formData.append('image', values.image.file);
-//     } else if (values.image instanceof File) {
-//         formData.append('image', values.image);
-//     }
 
-//     try {
-//         const response = await axios.post(Api.EVENT(), formData, {
-//             headers: {
-//                 "Content-Type": "multipart/form-data"
-//             }
-//         });
-        
-//         if (response.status === 200) {
-//             toast.success("Event added successfully!");
-//             setAddEventModalVisible(false);
-//             fetchEvents();
-//         }
-//     } catch (error) {
-//         console.error('Upload error:', error);
-//         // Log the actual error response for debugging
-//         if (error.response) {
-//             console.log('Error response:', error.response.data);
-//         }
-//         toast.error(error.response?.data?.message || "An error occurred while adding the event");
-//     }
-// };
+const UPLOADCARE_PUBLIC_KEY = '92caec739e0a07cd0445';
+
+const extractFileFromUpload = (imageData) => {
+  if (Array.isArray(imageData)) {
+    return imageData[0]?.originFileObj || imageData[0]?.file || imageData[0];
+  }
+  return imageData?.file || imageData?.originFileObj || imageData;
+};
+const handleFileUpload = async (file) => {
+  if (!file) return null;
+
+  try {
+    const uploadedFile = await uploadFile(file, {
+      publicKey: UPLOADCARE_PUBLIC_KEY,
+      contentType: 'image/*',
+    });
+    return uploadedFile.cdnUrl;
+  } catch (error) {
+    console.error('Uploadcare upload error:', error);
+    toast.error('Image upload failed');
+    return null;
+  }
+};
 const handleEventUser = async (values) => {
-  const formData = new FormData();
-  
-  Object.keys(values).forEach((key) => {
-      if (key !== 'image') {
-          formData.append(key, values[key]);
-      }
-  });
-  if (values.image?.[0]?.originFileObj) {
-      formData.append('image', values.image[0].originFileObj);
-  } else if (values.image?.file) {
-      formData.append('image', values.image.file);
-  }
-
   try {
-      const response = await axios.post(Api.EVENT(), formData, {
-          headers: {
-              "Content-Type": "multipart/form-data"
-          }
-      });
-      
-      if (response.status === 200) {
-          toast.success("Event added successfully!");
-          setAddEventModalVisible(false);
-          fetchEvents();
-      }
+    const imageFile = extractFileFromUpload(values.image);
+    const imageUrl = imageFile ? await handleFileUpload(imageFile) : null;
+
+    const payload = {
+      ...values,
+      image: imageUrl
+    };
+
+    const response = await axios.post(Api.EVENT(), payload);
+    
+    if (response.status === 200) {
+      toast.success("Event added successfully!");
+      setAddEventModalVisible(false);
+      fetchEvents();
+    }
   } catch (error) {
-      console.error('Upload error:', error);
-      toast.error(error.response?.data?.message || "An error occurred while adding the event");
+    console.error('Event creation error:', error);
+    toast.error(error.response?.data?.message || "Event creation failed");
   }
 };
 
-//   const handleUpdateEvent = async (values) => {
-//     const formData = new FormData();
-    
-//     Object.keys(values).forEach((key) => {
-//         if (key !== 'image') {
-//             formData.append(key, values[key]);
-//         }
-//     });
-    
-//     // Handle file upload - Fix for Ant Design Upload component
-//     if (values.image?.[0]?.originFileObj) {
-//         formData.append('image', values.image[0].originFileObj);
-//     } else if (values.image?.file) {
-//         formData.append('image', values.image.file);
-//     } else if (values.image instanceof File) {
-//         formData.append('image', values.image);
-//     }
-
-//     try {
-//         const response = await axios.put(`${Api.EVENT()}/${eventToUpdate.id}`, formData, {
-//             headers: {
-//                 "Content-Type": "multipart/form-data"
-//             }
-//         });
-        
-//         if (response.status === 200) {
-//             toast.success("Event updated successfully!");
-//             setUpdateEventModalVisible(false);
-//             fetchEvents();
-//         }
-//     } catch (error) {
-//         console.error('Update error:', error);
-//         if (error.response) {
-//             console.log('Error response:', error.response.data);
-//         }
-//         toast.error(error.response?.data?.message || "An error occurred while updating the event");
-//     }
-// };
 const handleUpdateEvent = async (values) => {
-  const formData = new FormData();
-  
-  Object.keys(values).forEach((key) => {
-      if (key !== 'image') {
-          formData.append(key, values[key]);
-      }
-  });
-  if (values.image?.[0]?.originFileObj) {
-      formData.append('image', values.image[0].originFileObj);
-  } else if (values.image?.file) {
-      formData.append('image', values.image.file);
-  }
-
   try {
-      const response = await axios.put(`${Api.EVENT()}/${eventToUpdate.id}`, formData, {
-          headers: {
-              "Content-Type": "multipart/form-data"
-          }
-      });
-      
-      if (response.status === 200) {
-          toast.success("Event updated successfully!");
-          setUpdateEventModalVisible(false);
-          fetchEvents();
-      }
+    const imageFile = extractFileFromUpload(values.image);
+    const imageUrl = imageFile ? await handleFileUpload(imageFile) : eventToUpdate.image;
+
+    const payload = {
+      ...values,
+      image: imageUrl
+    };
+
+    const response = await axios.put(`${Api.EVENT()}/${eventToUpdate.id}`, payload);
+    
+    if (response.status === 200) {
+      toast.success("Event updated successfully!");
+      setUpdateEventModalVisible(false);
+      fetchEvents();
+    }
   } catch (error) {
-      console.error('Update error:', error);
-      toast.error(error.response?.data?.message || "An error occurred while updating the event");
+    console.error('Event update error:', error);
+    toast.error(error.response?.data?.message || "Event update failed");
   }
 };
+
 const fetchPreviousEvents = async () => {
   try {
     const response = await axios.get(Api.PREVIOUEVENT());
