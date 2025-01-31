@@ -80,6 +80,17 @@ const Login = () => {
             </button>
           </form>
           <div className="mt-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Not have an account?{" "}
+              <button
+                onClick={() => router.push(PageRoutes.SIGNUP())}
+                className="text-primary hover:text-primary/80 text-blue-800 transition-colors"
+              >
+                Sign Up
+              </button>
+            </p>
+          </div>
+          <div className="mt-6 text-center">
             <button
               onClick={() => router.push(PageRoutes.FORGOTPASSWORD())}
               className="text-sm text-primary hover:text-primary/80 transition-colors"
