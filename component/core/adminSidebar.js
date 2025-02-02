@@ -15,7 +15,7 @@ const {handleLogout}=UseAuthHook()
           {/* <p className="menu-label">Menu</p> */}
           <nav className="nav-menu">
             <Link href={PageRoutes.ADMINDASBOARD()} className="nav-link">
-              <FaChartBar className="nav-icon" />
+              <FaChartBar className="nav-icon"/>
               <span>Dashboard</span>
             </Link>
             <Link href={PageRoutes.USER()} className="nav-link">
@@ -31,7 +31,7 @@ const {handleLogout}=UseAuthHook()
               <span>Tickets</span>
             </Link>
             <Link href={PageRoutes.FEEDBACK()} className="nav-link">
-              <FaComment className="nav-icon" />
+              <FaComment className="nav-icon"/>
               <span>Feedback</span>
             </Link>
           </nav>
@@ -55,7 +55,7 @@ const {handleLogout}=UseAuthHook()
           <span>Dashboard</span>
         </Link>
         <Link href={PageRoutes.USER()} className="nav-link">
-          <FaUsers className="nav-icon" />
+          <FaUsers className="nav-icon" color="white" />
           <span>Users</span>
         </Link>
         <Link href={PageRoutes.EVENT()} className="nav-link">
