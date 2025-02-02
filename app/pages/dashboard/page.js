@@ -71,7 +71,7 @@ const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
       <button
         type="submit"
         disabled={!stripe || isProcessing}
-        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg hover:opacity-90 disabled:bg-slate-600 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center text-lg font-semibold shadow-md"
+        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg hover:opacity-90 disabled:bg-slate-600 disabled:cursor-not-allowed flex items-center justify-center text-lg font-semibold shadow-md"
       >
         {isProcessing ? (
           <>
