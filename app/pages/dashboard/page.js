@@ -38,9 +38,31 @@ const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // Add appearance options for better iOS compatibility
+  const appearance = {
+    theme: 'stripe',
+    variables: {
+      colorPrimary: '#0d6efd',
+      colorBackground: '#1e293b',
+      colorText: '#ffffff',
+      colorDanger: '#df1b41',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      borderRadius: '8px',
+    },
+  };
+
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
+    
+    if (!stripe || !elements) {
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
@@ -50,6 +72,7 @@ const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
           return_url: `${window.location.origin}/pages/payment`,
         },
       });
+
       if (error) {
         onError(error.message);
       } else {
@@ -63,26 +86,32 @@ const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-md mx-auto space-y-6 bg-slate-800 p-6 rounded-lg"
-    >
-      <PaymentElement className="mb-6 text-white" />
-      <button
-        type="submit"
-        disabled={!stripe || isProcessing}
-        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg hover:opacity-90 disabled:bg-slate-600 disabled:cursor-not-allowed flex items-center justify-center text-lg font-semibold shadow-md"
-      >
-        {isProcessing ? (
-          <>
-            <Loader2 className="animate-spin mr-3" size={24} />
-            Processing...
-          </>
-        ) : (
-          "Pay Now"
-        )}
-      </button>
-    </form>
+    <div className="w-full max-w-md mx-auto">
+      <form onSubmit={handleSubmit} className="p-4">
+        <Elements stripe={stripe} options={options}>
+          <PaymentElement 
+            options={{
+              layout: 'tabs',
+              wallets: {
+                applePay: 'auto',
+                googlePay: 'auto'
+              }
+            }}
+          />
+        </Elements>
+        <button
+          type="submit"
+          disabled={!stripe || isProcessing}
+          className="w-full mt-4 bg-blue-600 text-white py-3 px-4 rounded-lg disabled:opacity-50"
+          style={{
+            WebkitAppearance: 'none',
+            cursor: isProcessing ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {isProcessing ? "Processing..." : "Pay Now"}
+        </button>
+      </form>
+    </div>
   );
 };
 
