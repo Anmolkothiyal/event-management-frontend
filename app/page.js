@@ -11,7 +11,6 @@ export default function Home() {
       <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
         EventManager
       </h1>
-      <PWABanner/>
       <nav className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4 mt-2 sm:mt-0">
         <Link href={PageRoutes.LOGIN()}>
           <button className="w-full sm:w-auto bg-white/90 text-blue-600 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base transition-all hover:bg-white hover:shadow-lg hover:shadow-white/20 active:scale-95">
