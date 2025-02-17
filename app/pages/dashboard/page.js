@@ -33,32 +33,14 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
-const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
+const PaymentForm = ({ onSuccess, onError }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Add appearance options for better iOS compatibility
-  const appearance = {
-    theme: 'stripe',
-    variables: {
-      colorPrimary: '#0d6efd',
-      colorBackground: '#1e293b',
-      colorText: '#ffffff',
-      colorDanger: '#df1b41',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      borderRadius: '8px',
-    },
-  };
-
-  const options = {
-    clientSecret,
-    appearance,
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!stripe || !elements) {
       return;
     }
@@ -88,24 +70,22 @@ const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
   return (
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="p-4">
-        <Elements stripe={stripe} options={options}>
-          <PaymentElement 
-            options={{
-              layout: 'tabs',
-              wallets: {
-                applePay: 'auto',
-                googlePay: 'auto'
-              }
-            }}
-          />
-        </Elements>
+        <PaymentElement
+          options={{
+            layout: "tabs",
+            wallets: {
+              applePay: "auto",
+              googlePay: "auto",
+            },
+          }}
+        />
         <button
           type="submit"
           disabled={!stripe || isProcessing}
           className="w-full mt-4 bg-blue-600 text-white py-3 px-4 rounded-lg disabled:opacity-50"
           style={{
-            WebkitAppearance: 'none',
-            cursor: isProcessing ? 'not-allowed' : 'pointer'
+            WebkitAppearance: "none",
+            cursor: isProcessing ? "not-allowed" : "pointer",
           }}
         >
           {isProcessing ? "Processing..." : "Pay Now"}
@@ -114,6 +94,7 @@ const PaymentForm = ({ clientSecret, onSuccess, onError }) => {
     </div>
   );
 };
+
 
 const ProfileDrawer = ({
   isOpen,

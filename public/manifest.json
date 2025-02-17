@@ -1,0 +1,21 @@
+{
+    "name": "EventManagement",
+    "short_name": "EventManagement",
+    "description": "EventManagement: Manage your event",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#E8E9EB",
+    "icons": [
+      {
+        "src": "/img/pwa.svg",
+        "sizes": "192x192",
+        "type": "image/svg+xml"
+      },
+      {
+        "src": "/img/pwa.svg",
+        "sizes": "512x512",
+        "type": "image/svg+xml"
+      }
+    ]
+  }
